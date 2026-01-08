@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛒 THORSTEN SUPPLY™ | Limited Drop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #0f0f0f;
+            --gold: #FFD700;
+            --accent: #FF0055;
+            --card-bg: #1a1a1a;
+            --text: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* --- NAVBAR --- */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 5%; border-bottom: 1px solid #333;
+            background: rgba(15, 15, 15, 0.9); position: sticky; top: 0; z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .brand {
+            font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--gold);
+            text-decoration: none; letter-spacing: 2px;
+        }
+
+        .cart-icon {
+            font-size: 1.5rem; cursor: pointer; position: relative;
+        }
+        .cart-count {
+            position: absolute; top: -10px; right: -10px;
+            background: var(--accent); color: white;
+            font-size: 0.8rem; padding: 2px 6px; border-radius: 50%;
+            font-weight: bold;
+        }
+
+        /* --- HERO --- */
+        .hero {
+            text-align: center; padding: 80px 20px;
+            background: radial-gradient(circle, #2a2a2a 0%, #0f0f0f 70%);
+        }
+        h1 {
+            font-size: 4rem; text-transform: uppercase; font-weight: 900;
+            background: linear-gradient(to right, #fff, var(--gold));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .subtitle { color: #888; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 30px; }
+        
+        .back-link {
+            color: white; text-decoration: none; border-bottom: 1px dashed white; opacity: 0.7;
+        }
+        .back-link:hover { opacity: 1; color: var(--gold); border-color: var(--gold); }
+
+        /* --- GRID --- */
+        .shop-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 40px; padding: 50px 10%; max-width: 1400px; margin: 0 auto;
+        }
+
+        /* --- PRODUCT CARD --- */
+        .product-card {
+            background: var(--card-bg); border-radius: 20px; overflow: hidden;
+            transition: 0.3s; border: 1px solid #333; position: relative;
+        }
+        .product-card:hover {
+            transform: translateY(-10px); border-color: var(--gold);
+            box-shadow: 0 10px 40px rgba(255, 215, 0, 0.1);
+        }
+
+        .img-box {
+            height: 250px; background: #222; display: flex;
+            align-items: center; justify-content: center; font-size: 6rem;
+            position: relative; overflow: hidden;
+        }
+        
+        /* Funny Hover Effect on Image */
+        .product-card:hover .img-box { font-size: 7rem; transition: 0.3s; }
+
+        .details { padding: 20px; }
+        .prod-title { font-weight: 700; font-size: 1.2rem; margin-bottom: 5px; }
+        .prod-desc { color: #888; font-size: 0.9rem; margin-bottom: 15px; min-height: 40px; }
+        
+        .price-row { display: flex; justify-content: space-between; align-items: center; }
+        .price { font-weight: bold; font-size: 1.2rem; color: var(--gold); }
+        
+        .buy-btn {
+            background: white; color: black; border: none;
+            padding: 8px 20px; border-radius: 5px; font-weight: bold; cursor: pointer;
+            transition: 0.2s;
+        }
+        .buy-btn:hover { background: var(--gold); }
+
+        /* --- SOLD OUT OVERLAY --- */
+        .sold-out .img-box::after {
+            content: "SOLD OUT"; position: absolute;
+            background: var(--accent); color: white; padding: 5px 20px;
+            transform: rotate(-45deg); font-weight: bold; letter-spacing: 2px;
+            box-shadow: 0 0 10px black;
+        }
+        .sold-out .buy-btn {
+            background: #333; color: #555; cursor: not-allowed;
+        }
+        .sold-out .buy-btn:hover { background: #333; }
+
+        /* --- NOTIFICATION TOAST --- */
+        #toast {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            background: var(--gold); color: black; padding: 15px 30px;
+            border-radius: 50px; font-weight: bold;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            opacity: 0; pointer-events: none; transition: 0.3s; z-index: 200;
+        }
+        .toast-visible { opacity: 1 !important; bottom: 50px !important; }
+
+        /* --- MODAL (CHECKOUT) --- */
+        #checkout-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); z-index: 1000;
+            align-items: center; justify-content: center;
+        }
+        .modal-content {
+            background: #1a1a1a; padding: 40px; border-radius: 20px;
+            text-align: center; border: 2px solid var(--gold); max-width: 400px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="brand">THORSTEN SUPPLY™</a>
+        <div class="cart-icon" onclick="checkout()">
+            🛒 <span class="cart-count" id="count">0</span>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h1>Season 1 Drop</h1>
+        <div class="subtitle">Exquisite Essentials for Legends</div>
+        <a href="thorsten_legend.html" class="back-link">← Zurück zur Legende</a>
+    </div>
+
+    <div class="shop-grid">
+
+        <div class="product-card">
+            <div class="img-box">👔</div>
+            <div class="details">
+                <div class="prod-title">The "Exquisite" Tie</div>
+                <div class="prod-desc">Handgewebt aus purer Eleganz. Bindet sich von selbst perfekt.</div>
+                <div class="price-row">
+                    <span class="price">€ 420.00</span>
+                    <button class="buy-btn" onclick="addToCart()">ADD</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card sold-out">
+            <div class="img-box">🎟️</div>
+            <div class="details">
+                <div class="prod-title">Golden HÜ-Pass</div>
+                <div class="prod-desc">Befreit dich einmalig von allem. Leider sofort ausverkauft.</div>
+                <div class="price-row">
+                    <span class="price">Priceless</span>
+                    <button class="buy-btn">SOLD OUT</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="img-box">☕</div>
+            <div class="details">
+                <div class="prod-title">Infinite Coffee Mug</div>
+                <div class="prod-desc">Wird niemals leer. Hält den Kaffee immer auf 80°C.</div>
+                <div class="price-row">
+                    <span class="price">€ 25.00</span>
+                    <button class="buy-btn" onclick="addToCart()">ADD</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="img-box">🖍️</div>
+            <div class="details">
+                <div class="prod-title">Goldene Kreide</div>
+                <div class="prod-desc">Schreibt nur richtige Antworten an die Tafel. Limitierte Edition.</div>
+                <div class="price-row">
+                    <span class="price">€ 99.99</span>
+                    <button class="buy-btn" onclick="addToCart()">ADD</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="img-box">🧢</div>
+            <div class="details">
+                <div class="prod-title">"Chill" Cap</div>
+                <div class="prod-desc">Erhöht dein Aura-Level sofort um +5000.</div>
+                <div class="price-row">
+                    <span class="price">€ 35.00</span>
+                    <button class="buy-btn" onclick="addToCart()">ADD</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="img-box">💿</div>
+            <div class="details">
+                <div class="prod-title">Thorsten's Mixtape</div>
+                <div class="prod-desc">10 Stunden Lo-Fi Beats zum Lernen & Chillen.</div>
+                <div class="price-row">
+                    <span class="price">€ 15.00</span>
+                    <button class="buy-btn" onclick="addToCart()">ADD</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="toast">✅ Zum Warenkorb hinzugefügt!</div>
+
+    <div id="checkout-modal" onclick="closeModal()">
+        <div class="modal-content">
+            <div style="font-size: 3rem;">⚠️</div>
+            <h2 style="color: var(--gold); margin: 10px 0;">SYSTEM OVERLOAD</h2>
+            <p>Der Shop ist gerade wegen zu viel "Hype" abgestürzt.</p>
+            <br>
+            <p style="font-size: 0.9rem; color: #888;">Zahlungsmethode "Gute Noten" wird akzeptiert.</p>
+            <br>
+            <button class="buy-btn" style="background: var(--accent); color: white;" onclick="closeModal()">OK, CHILL</button>
+        </div>
+    </div>
+
+    <script>
+        let cart = 0;
+        const countEl = document.getElementById('count');
+        const toast = document.getElementById('toast');
+        const modal = document.getElementById('checkout-modal');
+
+        function addToCart() {
+            cart++;
+            countEl.innerText = cart;
+            
+            // Toast Animation
+            toast.classList.add('toast-visible');
+            setTimeout(() => {
+                toast.classList.remove('toast-visible');
+            }, 2000);
+        }
+
+        function checkout() {
+            if(cart === 0) {
+                alert("Dein Warenkorb ist leer! Das ist nicht sehr exquisit.");
+            } else {
+                modal.style.display = 'flex';
+            }
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

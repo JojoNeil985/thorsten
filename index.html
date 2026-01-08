@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👑 THORSTEN MAYR | THE STIFTER LEGEND 👑</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Outfit:wght@300;500;900&family=Permanent+Marker&family=Cinzel:wght@900&family=VT323&family=Merriweather:ital@1&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-deep: #1a0b0b;
+            --gold: #FFD700;
+            --sunset: #FF4500;
+            --pink: #FF1493;
+            --neon-green: #39ff14;
+            --glass: rgba(255, 255, 255, 0.08);
+            --border: rgba(255, 255, 255, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+
+        body {
+            background: var(--bg-deep);
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            transition: background-color 0.1s;
+        }
+
+        /* --- BACKGROUND MAGIC --- */
+        .aurora {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+            background: linear-gradient(-45deg, #462523, #2b1022, #0f2027, #203a43);
+            background-size: 400% 400%;
+            animation: gradientBG 20s ease infinite;
+        }
+        .orb {
+            position: fixed; border-radius: 50%; filter: blur(100px); opacity: 0.4;
+            animation: floatOrb 15s infinite alternate; z-index: -1;
+        }
+        .orb-1 { width: 500px; height: 500px; background: var(--sunset); top: -100px; left: -100px; }
+        .orb-2 { width: 400px; height: 400px; background: var(--pink); bottom: -50px; right: -50px; animation-delay: -5s; }
+        .orb-3 { width: 300px; height: 300px; background: var(--gold); top: 40%; left: 30%; opacity: 0.2; }
+
+        .floating-word {
+            position: fixed; color: rgba(255,255,255,0.02); font-weight: 900;
+            font-size: 10rem; z-index: -1; animation: floatWord 25s linear infinite;
+            white-space: nowrap; pointer-events: none;
+        }
+
+        #cursor {
+            position: fixed; width: 20px; height: 20px;
+            border: 2px solid var(--gold); border-radius: 50%;
+            pointer-events: none; z-index: 10000;
+            mix-blend-mode: exclusion; transition: transform 0.1s;
+        }
+        .star-trail {
+            position: fixed; width: 6px; height: 6px; background: var(--gold);
+            border-radius: 50%; pointer-events: none; z-index: 9999;
+            animation: fadeOut 0.8s forwards;
+        }
+
+        .container {
+            max-width: 1100px; margin: 0 auto; padding: 40px 20px;
+            text-align: center; position: relative; z-index: 10;
+        }
+
+        header { margin-bottom: 60px; position: relative; }
+        
+        .holy-rays {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 800px; height: 800px;
+            background: repeating-conic-gradient(from 0deg, rgba(255, 215, 0, 0.1) 0deg 10deg, transparent 10deg 20deg);
+            z-index: -1; pointer-events: none;
+            animation: spinRays 20s linear infinite;
+            border-radius: 50%;
+            mask-image: radial-gradient(black, transparent 70%);
+        }
+
+        .halo-img-wrapper {
+            position: relative; width: 320px; height: 320px; margin: 0 auto 30px;
+        }
+        
+        .halo-img {
+            width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
+            border: 6px solid var(--gold);
+            box-shadow: 0 0 100px rgba(255, 215, 0, 0.6);
+            animation: pulseAura 4s infinite;
+        }
+
+        .crown {
+            position: absolute; top: -90px; left: 50%; transform: translateX(-50%) rotate(-10deg);
+            font-size: 120px; animation: float 3s ease-in-out infinite; z-index: 20;
+            filter: drop-shadow(0 0 20px gold);
+        }
+
+        .badge-verified {
+            position: absolute; bottom: 10px; right: 10px; font-size: 4rem;
+            filter: drop-shadow(0 0 15px var(--gold)); animation: popIn 1s;
+        }
+
+        h1 {
+            font-size: 6rem; font-weight: 900; line-height: 0.9;
+            background: linear-gradient(to right, #fff, var(--gold), var(--pink));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 10px; text-transform: uppercase;
+            text-shadow: 0 0 30px rgba(255,215,0,0.3);
+        }
+        
+        .subtitle {
+            font-family: 'Permanent Marker', cursive; font-size: 2rem; color: #ddd;
+            transform: rotate(-2deg); display: inline-block; margin-bottom: 30px;
+        }
+
+        .love-btn {
+            background: linear-gradient(45deg, var(--gold), var(--sunset), var(--pink));
+            background-size: 200% 200%;
+            animation: gradientMove 3s ease infinite;
+            color: black; padding: 25px 60px; border-radius: 50px;
+            font-size: 1.8rem; font-weight: 900; border: 2px solid white;
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.6);
+            transition: 0.1s; font-family: 'Outfit', sans-serif;
+            text-transform: uppercase; letter-spacing: 2px;
+        }
+        .love-btn:hover { transform: scale(1.05); box-shadow: 0 0 80px var(--gold); cursor: none; }
+        .love-btn:active { transform: scale(0.95); }
+
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px;
+            margin: 80px 0;
+        }
+        .stat-card {
+            background: var(--glass); backdrop-filter: blur(12px);
+            border: 1px solid var(--border); border-radius: 20px; padding: 25px;
+            transition: 0.4s; text-align: center;
+        }
+        .stat-card:hover { transform: translateY(-10px) scale(1.05); background: rgba(255,255,255,0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .stat-icon { font-size: 3.5rem; display: block; margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.5)); }
+        .stat-val { font-size: 2.2rem; font-weight: 900; color: var(--gold); }
+        .stat-label { font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; opacity: 0.8; }
+
+        .vibe-box {
+            background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(0,0,0,0.5));
+            border-radius: 30px; padding: 50px; border: 2px solid var(--gold);
+            margin: 80px 0; position: relative; overflow: hidden;
+            box-shadow: 0 0 50px rgba(255,215,0,0.1);
+        }
+        .vibe-title { font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.5rem; margin-bottom: 20px; letter-spacing: 5px; }
+        .vibe-text {
+            font-size: 2.5rem; font-weight: bold; min-height: 80px; font-family: 'Dancing Script', cursive;
+            display: flex; align-items: center; justify-content: center; color: white;
+            text-shadow: 0 0 10px var(--gold);
+        }
+
+        .gallery-title { font-size: 3rem; margin-bottom: 40px; font-weight: 900; letter-spacing: -1px; text-transform: uppercase; }
+        .gallery { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 100px; }
+        .polaroid {
+            background: white; padding: 15px 15px 60px 15px;
+            color: black; font-family: 'Permanent Marker', cursive;
+            transform: rotate(-3deg); transition: 0.3s;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+            width: 260px;
+        }
+        .polaroid:nth-child(even) { transform: rotate(3deg); margin-top: 40px; }
+        .polaroid:hover { transform: scale(1.2) rotate(0deg); z-index: 50; box-shadow: 0 0 50px white; }
+        .polaroid img { width: 100%; height: 220px; object-fit: cover; filter: grayscale(20%); }
+
+        .sticky-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-bottom: 100px; }
+        .sticky {
+            width: 180px; height: 180px; background: #fffaac; color: #333;
+            padding: 20px; font-family: 'Dancing Script', cursive; font-size: 1.4rem;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+            transform: rotate(var(--rot)); transition: 0.3s;
+            display: flex; align-items: center; justify-content: center; text-align: center;
+        }
+        .sticky:hover { transform: scale(1.2) rotate(0deg); z-index: 10; box-shadow: 0 0 20px var(--gold); }
+        .sticky:nth-child(2n) { background: #ffdfba; }
+        .sticky:nth-child(3n) { background: #baffc9; }
+
+        .marquee-container {
+            background: var(--gold); color: black; padding: 12px 0;
+            position: fixed; bottom: 0; left: 0; width: 100%; z-index: 90;
+            transform: rotate(-1deg) scale(1.02); border-top: 4px solid white;
+            box-shadow: 0 0 30px var(--gold);
+        }
+        footer { margin-bottom: 80px; opacity: 0.5; font-size: 0.9rem; }
+
+        #stress-btn {
+            position: fixed; bottom: 40px; right: 20px; z-index: 100;
+            padding: 10px 20px; background: rgba(0,0,0,0.7); color: white;
+            border: 1px solid white; border-radius: 50px; font-weight: bold;
+        }
+
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        @keyframes gradientMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        @keyframes floatOrb { from { transform: translate(0,0); } to { transform: translate(60px, 60px); } }
+        @keyframes floatWord { from { transform: translateX(100vw); } to { transform: translateX(-100%); } }
+        @keyframes float { 0%, 100% { transform: translateX(-50%) rotate(-10deg) translateY(0); } 50% { transform: translateX(-50%) rotate(-10deg) translateY(-20px); } }
+        @keyframes pulseAura { 0% { box-shadow: 0 0 40px var(--gold); } 50% { box-shadow: 0 0 100px var(--sunset); } 100% { box-shadow: 0 0 40px var(--gold); } }
+        @keyframes popIn { 0% { transform: scale(0); } 80% { transform: scale(1.2); } 100% { transform: scale(1); } }
+        @keyframes popHeart { 0% { transform: scale(0); opacity: 0; } 50% { opacity: 1; } 100% { transform: scale(1.5) translateY(-100px); opacity: 0; } }
+        @keyframes spinRays { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+        @keyframes shake { 0% { transform: translate(1px, 1px) rotate(0deg); } 10% { transform: translate(-1px, -2px) rotate(-1deg); } 20% { transform: translate(-3px, 0px) rotate(1deg); } 30% { transform: translate(3px, 2px) rotate(0deg); } 40% { transform: translate(1px, -1px) rotate(1deg); } 50% { transform: translate(-1px, 2px) rotate(-1deg); } 60% { transform: translate(-3px, 1px) rotate(0deg); } 70% { transform: translate(3px, 1px) rotate(-1deg); } 80% { transform: translate(-1px, -1px) rotate(1deg); } 90% { transform: translate(1px, 2px) rotate(0deg); } 100% { transform: translate(1px, -2px) rotate(-1deg); } }
+        .shaking { animation: shake 0.5s; }
+        .heart { position: fixed; font-size: 2rem; pointer-events: none; animation: popHeart 1.5s ease-out forwards; z-index: 999; }
+
+        /* --- NEW FEATURES CSS --- */
+        .aura-container { width: 100%; max-width: 600px; margin: 0 auto 30px; background: rgba(0,0,0,0.5); border: 1px solid var(--gold); border-radius: 10px; padding: 5px; }
+        .aura-bar { height: 10px; background: linear-gradient(90deg, var(--gold), var(--sunset)); width: 100%; animation: auraFlux 0.5s infinite alternate; border-radius: 5px; box-shadow: 0 0 20px var(--gold); }
+        @keyframes auraFlux { from { width: 95%; opacity: 0.8; } to { width: 100%; opacity: 1; } }
+
+        .crypto-ticker { font-family: 'VT323', monospace; font-size: 1.5rem; color: var(--neon-green); background: black; border: 1px solid var(--neon-green); display: inline-block; padding: 10px 20px; margin: 20px 0; border-radius: 5px; }
+        
+        .shrine-area { display: flex; justify-content: center; gap: 30px; margin: 50px 0; }
+        .candle { position: relative; width: 40px; height: 100px; background: linear-gradient(#e6e6e6, #ccc); border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.5); cursor: pointer; }
+        .flame { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); width: 15px; height: 30px; background: orange; border-radius: 50% 50% 20% 20%; box-shadow: 0 0 20px orange; animation: flicker 0.1s infinite; opacity: 0.3; transition: opacity 0.5s; }
+        .candle.lit .flame { opacity: 1; background: linear-gradient(yellow, orange); }
+        @keyframes flicker { 0% { transform: translateX(-50%) scale(1); } 100% { transform: translateX(-50%) scale(1.1) rotate(2deg); } }
+
+        .live-chat { position: fixed; bottom: 80px; left: 20px; width: 250px; height: 200px; overflow: hidden; pointer-events: none; z-index: 80; mask-image: linear-gradient(to bottom, transparent, black 20%); }
+        .chat-msg { font-size: 12px; margin-bottom: 5px; text-align: left; text-shadow: 1px 1px 0 black; }
+        
+        .timeline { border-left: 2px solid var(--gold); margin: 50px 0; padding-left: 20px; text-align: left; }
+        .timeline-item { margin-bottom: 30px; position: relative; }
+        .timeline-item::before { content: '👑'; position: absolute; left: -31px; background: var(--bg-deep); border: 2px solid var(--gold); border-radius: 50%; padding: 2px; }
+        
+        .artifacts { display: flex; gap: 20px; justify-content: center; margin: 50px 0; }
+        .artifact { background: rgba(0,0,0,0.6); border: 1px solid var(--gold); padding: 10px; border-radius: 10px; width: 150px; }
+        .artifact-img { font-size: 3rem; margin-bottom: 5px; }
+        
+        .forbidden-btn { background: #333; color: red; border: 1px solid red; padding: 10px 20px; font-family: 'VT323'; letter-spacing: 2px; cursor: pointer; margin-top: 20px; }
+        .forbidden-btn:hover { background: red; color: black; }
+        
+        .oracle-box { border: 2px dashed var(--pink); padding: 20px; margin: 30px auto; max-width: 400px; border-radius: 20px; }
+        
+        .fan-id { position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.1); padding: 10px; border: 1px solid var(--gold); border-radius: 5px; text-align: left; font-size: 0.8rem; font-family: monospace; z-index: 50; }
+
+        .world-domination { width: 100%; height: 100px; background: url('https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg'); background-size: cover; opacity: 0.3; margin: 20px 0; border: 1px solid var(--gold); }
+        
+        /* NEW: LORE TEXT STYLING */
+        .lore-scroll {
+            background: rgba(0,0,0,0.5); border: 2px solid var(--gold); 
+            padding: 40px; border-radius: 10px; margin: 60px 0;
+            font-family: 'Merriweather', serif; line-height: 1.8;
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.2);
+            position: relative;
+        }
+        .lore-scroll::before { content: "📜 THE SACRED SCROLL OF THE 8C"; position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--bg-deep); padding: 0 20px; color: var(--gold); font-family: 'Cinzel'; font-weight: bold; font-size: 1.2rem; }
+        .lore-text { font-style: italic; font-size: 1.1rem; color: #ddd; }
+        .lore-highlight { color: var(--gold); font-weight: bold; }
+
+    </style>
+</head>
+<body>
+
+    <div class="aurora"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    
+    <div class="floating-word" style="top: 15%; animation-duration: 30s;">LEGEND</div>
+    <div class="floating-word" style="top: 40%; animation-duration: 40s; font-size: 8rem;">EMPATHIE</div>
+    <div class="floating-word" style="top: 70%; animation-duration: 25s;">GOAT</div>
+
+    <div id="cursor"></div>
+
+    <div class="fan-id">
+        <div>USER: GUEST</div>
+        <div>RANK: <span id="user-rank" style="color: var(--gold);">INITIATE</span></div>
+        <div>ID: #<span id="user-id">0000</span></div>
+    </div>
+
+    <div class="live-chat" id="chat-box"></div>
+
+    <div class="container">
+        
+        <header>
+            <div class="holy-rays"></div> 
+            
+            <div style="font-family: 'Cinzel'; color: var(--gold); margin-bottom: 5px;">CURRENT AURA LEVEL: OVERLOAD</div>
+            <div class="aura-container"><div class="aura-bar"></div></div>
+
+            <div class="halo-img-wrapper">
+                <div class="crown">👑</div>
+                <img src="thorsten.jpg" alt="Thorsten Mayr" class="halo-img">
+                <div class="badge-verified">💙</div>
+            </div>
+            
+            <h1 id="main-title">THORSTEN MAYR</h1>
+            <div class="subtitle">"The Man. The Myth. The Stifter Legend."</div>
+            
+            <br><br>
+            <button class="love-btn" onclick="sendLove()">💖 LEGENDEN STATUS BESTÄTIGEN 💖</button>
+            <div style="margin-top: 25px; font-weight: 900; color: var(--gold); font-size: 1.2rem; letter-spacing: 2px;">
+                GLOBAL WORSHIP LEVEL: <span id="counter" style="color: white;">443.983</span>
+            </div>
+        </header>
+
+        <div class="crypto-ticker">
+            $THOR: 📈 $42,069.00 (+1337%) • MARKET CAP: ∞
+        </div>
+
+        <section class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-icon">📏</span>
+                <div class="stat-val">Titan</div>
+                <div class="stat-label">Größe: 2m</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">🎓</span>
+                <div class="stat-val">8C</div>
+                <div class="stat-label">Inner Circle</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">👨‍👩‍👧</span>
+                <div class="stat-val">#1</div>
+                <div class="stat-label">Proud Dad</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">🧘‍♂️</span>
+                <div class="stat-val">Max</div>
+                <div class="stat-label">Mental Care</div>
+            </div>
+        </section>
+        
+        <div class="lore-scroll">
+            <div class="lore-text">
+                "Nachdem unser zweijähriges Abenteuer mit Karl Trenda ein jähes Ende nahm, betrat am Beginn der Siebten ein <span class="lore-highlight">fast zwei-meter-großer Hüne mit Mönchsfrisur</span> den Klassenraum. The man. The myth. The THORSTEN.<br><br>
+                Durch seine liebevolle Art wurde aus einer einfachen Lehrkraft eine <span class="lore-highlight">Legende im Stiftergymnasium</span>. Im Inneren Kreis der 8C wissen wir: Wenn es heißt <span class="lore-highlight">'Jetzt hamma Thorsten'</span>, stehen 50 Minuten pure Erleuchtung bevor.<br><br>
+                Kein trockener Frontalunterricht, sondern ein freundschaftliches Gespräch. Einer der Wenigen, dem unser Stresslevel wirklich am Herzen liegt. Unser Idol, stolzer Papa und <span class="lore-highlight">der Lehrer, den wir alle vermissen werden.</span>"
+            </div>
+        </div>
+
+        <div class="oracle-box">
+            <h3 style="color: var(--pink);">🔮 W.W.T.D? 🔮</h3>
+            <p style="font-size: 0.8rem;">(What Would Thorsten Do?)</p>
+            <div id="oracle-ans" style="font-size: 1.5rem; font-weight: bold; margin: 15px 0; min-height: 30px;">...</div>
+            <button class="forbidden-btn" style="border-color: var(--pink); color: var(--pink);" onclick="askOracle()">ASK THE ORACLE</button>
+        </div>
+
+        <section class="vibe-box">
+            <div class="vibe-title">✨ THE SACRED TEXTS ✨</div>
+            <div class="vibe-text" id="wisdom-text">"JOAAA...  na an Test brauch ma eigentlich ned."</div>
+            <br>
+            <button class="love-btn" style="padding: 10px 30px; font-size: 1rem; background: white; color: black; border:none;" onclick="newWisdom()">🔄 NEUE OFFENBARUNG</button>
+        </section>
+
+        <h2 class="gallery-title" style="font-size: 2rem;">📜 PATH TO DIVINITY</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <strong style="color: var(--gold);">Year 0:</strong> The Trenda Era ends. A new Era begins.
+            </div>
+            <div class="timeline-item">
+                <strong style="color: var(--gold);">7th Grade:</strong> <span style="color: #bbb;">The Arrival.</span> A 2-meter Giant with monk hair enters the room. Expectations shattered.
+            </div>
+            <div class="timeline-item">
+                <strong style="color: var(--gold);">Today:</strong> The Legend of Stiftergymnasium. The Idol of 8C.
+            </div>
+        </div>
+
+        <h2 class="gallery-title" style="font-size: 2rem;">🏛️ SACRED ARTIFACTS</h2>
+        <div class="artifacts">
+            <div class="artifact">
+                <div class="artifact-img">💇‍♂️</div>
+                <div style="font-size: 0.8rem;">The Monk Cut</div>
+            </div>
+            <div class="artifact">
+                <div class="artifact-img">👶</div>
+                <div style="font-size: 0.8rem;">Baby Stories</div>
+            </div>
+            <div class="artifact">
+                <div class="artifact-img">🛋️</div>
+                <div style="font-size: 0.8rem;">The Chill Vibe</div>
+            </div>
+        </div>
+
+        <h2 class="gallery-title">HALL OF FAME 📸</h2>
+        <div class="gallery">
+            <div class="polaroid">
+                <img src="fruestueck.jpeg" alt="Moment 1">
+                <p>Ein nettes Frühstück</p>
+            </div>
+            <div class="polaroid">
+                <img src="epicselfie.JPG" alt="Moment 2">
+                <p>Meeting</p>
+            </div>
+            <div class="polaroid">
+                <img src="https://via.placeholder.com/260x220" alt="Moment 3">
+                <p>Proud Papa Moment</p>
+            </div>
+        </div>
+
+        <h2 class="gallery-title" style="font-size: 2rem; color: var(--gold);">🕯️ LIGHT A CANDLE</h2>
+        <div class="shrine-area">
+            <div class="candle" onclick="this.classList.toggle('lit')"><div class="flame"></div></div>
+            <div class="candle lit" onclick="this.classList.toggle('lit')"><div class="flame"></div></div>
+            <div class="candle" onclick="this.classList.toggle('lit')"><div class="flame"></div></div>
+            <div class="candle" onclick="this.classList.toggle('lit')"><div class="flame"></div></div>
+            <div class="candle" onclick="this.classList.toggle('lit')"><div class="flame"></div></div>
+        </div>
+
+        <div style="margin-bottom: 50px;">
+            <h3>🌍 GLOBAL INFLUENCE</h3>
+            <div class="world-domination"></div>
+            <small>Legend: Gold = Thorsten Territory (Everywhere)</small>
+        </div>
+
+        <h2 class="gallery-title" style="font-size: 2rem; color: var(--gold);">💌 DER SCHREIN DER LIEBE</h2>
+        <div class="sticky-grid">
+            <div class="sticky" style="--rot: -5deg;">"Bester Mann!"</div>
+            <div class="sticky" style="--rot: 3deg;">"Danke für das Verständnis!"</div>
+            <div class="sticky" style="--rot: -2deg;">"Echte Legende."</div>
+            <div class="sticky" style="--rot: 6deg;">"Family First ❤️"</div>
+            <div class="sticky" style="--rot: -4deg;">"DER ABSOLUTE GOAT"</div>
+            <div class="sticky" style="--rot: 2deg;">"We are unworthy!"</div>
+        </div>
+
+        <button class="forbidden-btn" onclick="forbiddenAction()">⚠️ DO NOT CLICK ⚠️</button>
+        <br><br>
+
+        <footer>
+            Erstellt mit absoluter Hingabe von der 8C.<br>
+            © 2026 - Thorsten Ultra-Fanclub e.V.
+        </footer>
+    </div>
+
+    <div class="marquee-container">
+        <marquee scrollamount="20" style="font-size: 1.5rem; font-weight: 900; letter-spacing: 2px;">
+            +++ JETZT HAMMA THORSTEN +++ STIFTERGYMNASIUM LEGENDE +++ KEINE TESTS, NUR VIBES +++ DANKE FÜR ALLES 8C +++ DER HÜNE IST DA +++
+        </marquee>
+    </div>
+
+    <button id="stress-btn" onmouseover="runAway()">STRESS MACHEN</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX - 10 + 'px';
+            cursor.style.top = e.clientY - 10 + 'px';
+            if(Math.random() > 0.7) {
+                const star = document.createElement('div');
+                star.className = 'star-trail';
+                star.style.left = e.clientX + 'px'; star.style.top = e.clientY + 'px';
+                star.style.width = Math.random() * 8 + 'px'; star.style.height = star.style.width;
+                document.body.appendChild(star);
+                setTimeout(() => star.remove(), 800);
+            }
+        });
+
+        const wisdoms = ["JOAAA...", "Wissen ist Macht, aber Herz ist wichtiger.", "Habt ihr heute schon gelacht?", "Stress ist nur eine Illusion.", "Jetzt hamma Thorsten.", "Familie geht vor. Immer.", "Noten definieren dich nicht.", "Ich bin nicht zu spät, die Zeit war nur zu früh.", "Die Aura regelt das schon."];
+        function newWisdom() {
+            const textEl = document.getElementById('wisdom-text');
+            textEl.style.opacity = 0;
+            setTimeout(() => {
+                textEl.innerText = `"${wisdoms[Math.floor(Math.random() * wisdoms.length)]}"`;
+                textEl.style.opacity = 1;
+            }, 300);
+        }
+
+        function sendLove() {
+            document.body.classList.add('shaking');
+            document.body.style.backgroundColor = "#444";
+            setTimeout(() => { document.body.classList.remove('shaking'); document.body.style.backgroundColor = "var(--bg-deep)"; }, 500);
+            
+            const counter = document.getElementById('counter');
+            counter.innerText = (parseInt(counter.innerText.replace(/,/g, '')) + 1).toLocaleString();
+            
+            const rect = document.querySelector('.love-btn').getBoundingClientRect();
+            for(let i=0; i<15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerText = ['❤️', '💖', '🔥', '👑', '🐐', '🛐'][Math.floor(Math.random()*6)];
+                heart.style.left = (rect.left + rect.width/2 + (Math.random()*100 - 50)) + 'px';
+                heart.style.top = (rect.top + (Math.random()*50 - 25)) + 'px';
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 1500);
+            }
+            confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 }, colors: ['#FFD700', '#FF1493', '#ffffff'] });
+            
+            const title = document.getElementById('main-title');
+            title.style.color = "#FFD700"; title.innerText = "DANKE THORSTEN!";
+            setTimeout(() => title.innerText = "THORSTEN MAYR", 2000);
+        }
+
+        function runAway() {
+            const btn = document.getElementById('stress-btn');
+            btn.style.left = Math.random() * (window.innerWidth - 150) + 'px';
+            btn.style.top = Math.random() * (window.innerHeight - 100) + 'px';
+            btn.innerText = "NOPE. KEIN STRESS.";
+            btn.style.background = "#ff4757"; btn.style.borderColor = "#ff4757";
+        }
+
+        setInterval(() => {
+            const counter = document.getElementById('counter');
+            if(Math.random() > 0.6) counter.innerText = (parseInt(counter.innerText.replace(/,/g, '')) + Math.floor(Math.random() * 5)).toLocaleString();
+        }, 2000);
+
+        function askOracle() {
+            const ans = ["YES.", "DEFINITELY.", "CHILL.", "DRINK COFFEE.", "IGNORE IT.", "GIVE A+", "JETZT HAMMA THORSTEN."];
+            const el = document.getElementById('oracle-ans');
+            el.innerText = "Consulting the vibe...";
+            setTimeout(() => el.innerText = ans[Math.floor(Math.random() * ans.length)], 1000);
+        }
+
+        function forbiddenAction() {
+            alert("SYSTEM ERROR: TOO MUCH SWAG DETECTED.");
+            confetti({ particleCount: 500, spread: 360 });
+        }
+
+        document.getElementById('user-id').innerText = Math.floor(Math.random() * 9000) + 1000;
+        const ranks = ["8C MEMBER", "BELIEVER", "ACOLYTE", "PALADIN", "HIGH PRIEST", "ULTRA STAN"];
+        document.getElementById('user-rank').innerText = ranks[Math.floor(Math.random() * ranks.length)];
+
+        const msgs = ["JETZT HAMMA THORSTEN", "NO TESTS???", "KING 👑", "MY GOAT", "Stifter Legend", "Legendary status", "8C loves you"];
+        const chatBox = document.getElementById('chat-box');
+        setInterval(() => {
+            const msg = document.createElement('div');
+            msg.className = 'chat-msg';
+            msg.style.color = Math.random() > 0.5 ? '#FFD700' : 'white';
+            msg.innerText = "Student" + Math.floor(Math.random()*100) + ": " + msgs[Math.floor(Math.random() * msgs.length)];
+            chatBox.appendChild(msg);
+            if(chatBox.childElementCount > 8) chatBox.removeChild(chatBox.firstChild);
+        }, 1500);
+
+        document.body.style.opacity = 0;
+        window.onload = () => { document.body.style.transition = "opacity 1.5s"; document.body.style.opacity = 1; }
+    </script>
+</body>
+</html>

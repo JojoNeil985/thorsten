@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>😍 THORSTEN STAN GENERATOR 😍</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bangers&family=Cherry+Bomb+One&family=Dokdo&family=Inter:wght@900&family=Permanent+Marker&family=VT323&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --img: url('thorsten.jpg');
+            --pink: #ff69b4;
+            --purple: #bf00ff;
+            --acid: #ccff00;
+        }
+
+        body {
+            background-color: #222;
+            margin: 0; padding: 40px;
+            display: flex; flex-wrap: wrap; gap: 50px; justify-content: center;
+            font-family: sans-serif;
+        }
+
+        h1 { width: 100%; text-align: center; color: var(--pink); font-family: 'Anton'; font-size: 40px; text-transform: uppercase; }
+
+        /* --- CONTAINER (1080 x 1350 px = Insta Portrait) --- */
+        .post {
+            width: 1080px; height: 1350px;
+            background: black;
+            position: relative; overflow: hidden;
+            flex-shrink: 0;
+            box-shadow: 0 0 50px rgba(255,105,180, 0.3);
+            
+            /* VORSCHAU-ZOOM (damit man es am PC sieht) */
+            transform: scale(0.25); 
+            transform-origin: top left;
+            margin-right: -810px; 
+            margin-bottom: -1012px; 
+        }
+
+        .bg {
+            position: absolute; width: 100%; height: 100%;
+            background-image: var(--img); background-size: cover; background-position: center;
+        }
+
+        /* =========================================
+           1. THE "BIAS" CARD (K-POP STYLE)
+           ========================================= */
+        .t-bias .bg { filter: saturate(1.2) brightness(1.1); }
+        .t-bias .overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(255,105,180,0.8), transparent 40%);
+            border: 30px solid var(--pink);
+        }
+        .t-bias .sticker {
+            position: absolute; background: white; color: var(--pink);
+            padding: 10px 20px; font-family: 'Cherry Bomb One'; font-size: 50px;
+            border-radius: 50px; transform: rotate(-10deg); top: 50px; left: 50px;
+            box-shadow: 5px 5px 0 black;
+        }
+        .t-bias .stats {
+            position: absolute; bottom: 50px; left: 50px;
+            color: white; font-family: 'Inter'; font-weight: 900; font-size: 60px;
+            text-shadow: 3px 3px 0 var(--pink); line-height: 1.2;
+        }
+        .t-bias .heart { position: absolute; font-size: 150px; top: 100px; right: 50px; filter: drop-shadow(0 0 20px white); }
+
+        /* =========================================
+           2. MY ROMAN EMPIRE
+           ========================================= */
+        .t-roman .bg { filter: grayscale(100%) contrast(1.2); opacity: 0.6; }
+        .t-roman { background: #111; display: flex; align-items: center; justify-content: center; }
+        .t-roman .tweet-box {
+            background: white; padding: 60px; border-radius: 40px; width: 80%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        .t-roman .user { display: flex; gap: 30px; align-items: center; margin-bottom: 40px; }
+        .t-roman .pfp { width: 100px; height: 100px; background: #ddd; border-radius: 50%; }
+        .t-roman .text { font-size: 80px; font-family: 'Inter'; font-weight: bold; line-height: 1.3; color: black; }
+        .t-roman .meme-img { 
+            width: 100%; height: 500px; margin-top: 40px; 
+            background-image: var(--img); background-size: cover; background-position: center; border-radius: 20px; 
+        }
+
+        /* =========================================
+           3. THE "COLLAGE" (OBSESSION)
+           ========================================= */
+        .t-collage { background: #ffdef2; }
+        .t-collage .photo {
+            position: absolute; width: 600px; height: 700px;
+            background-image: var(--img); background-size: cover;
+            border: 20px solid white; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .t-collage .p1 { top: 100px; left: -50px; transform: rotate(-10deg); filter: sepia(0.5); }
+        .t-collage .p2 { bottom: 100px; right: -50px; transform: rotate(5deg); filter: contrast(1.2); }
+        .t-collage .tape {
+            position: absolute; width: 200px; height: 60px; background: rgba(255,255,255,0.6);
+            transform: rotate(45deg); top: -30px; left: 50%;
+        }
+        .t-collage .text {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-family: 'Permanent Marker'; font-size: 180px; color: var(--purple);
+            text-shadow: 5px 5px 0 white; white-space: nowrap; z-index: 10;
+        }
+
+        /* =========================================
+           4. SECURITY CAM (PROTECT HIM)
+           ========================================= */
+        .t-cctv .bg { filter: grayscale(100%) brightness(0.8) contrast(1.5); }
+        .t-cctv::after {
+            content: ""; position: absolute; inset: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 0, 0.1) 3px);
+            pointer-events: none;
+        }
+        .t-cctv .rec {
+            position: absolute; top: 50px; left: 50px;
+            color: red; font-family: 'VT323'; font-size: 80px;
+            display: flex; align-items: center; gap: 20px;
+        }
+        .t-cctv .dot { width: 40px; height: 40px; background: red; border-radius: 50%; animation: blink 1s infinite; }
+        .t-cctv .frame {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            border: 10px solid rgba(0, 255, 0, 0.7); width: 600px; height: 600px;
+        }
+        .t-cctv .label {
+            position: absolute; bottom: 50px; width: 100%; text-align: center;
+            font-family: 'VT323'; color: #0f0; font-size: 100px; text-shadow: 0 0 20px #0f0;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* =========================================
+           5. DEEP FRIED (SCREAMING)
+           ========================================= */
+        .t-fried .bg { filter: contrast(200%) saturate(300%) hue-rotate(-20deg) brightness(1.2); }
+        .t-fried .eye-flare {
+            position: absolute; top: 35%; left: 30%; width: 200px; height: 200px;
+            background: radial-gradient(circle, red 10%, transparent 70%);
+            filter: blur(20px); mix-blend-mode: screen; opacity: 0.8;
+        }
+        .t-fried .eye-flare-2 { left: 55%; }
+        .t-fried .bottom-text {
+            position: absolute; bottom: 50px; width: 100%; text-align: center;
+            font-family: 'Impact', sans-serif; font-size: 180px; color: white;
+            text-shadow: 5px 5px 0 black; letter-spacing: 5px;
+            -webkit-text-stroke: 3px black;
+        }
+        .t-fried .top-text {
+            position: absolute; top: 50px; width: 100%; text-align: center;
+            font-family: 'Impact', sans-serif; font-size: 120px; color: white;
+            text-shadow: 5px 5px 0 black; -webkit-text-stroke: 3px black;
+        }
+
+        /* =========================================
+           6. TRENDING TOPIC
+           ========================================= */
+        .t-trend { background: #15202b; padding: 60px; color: white; font-family: 'Inter'; box-sizing: border-box; }
+        .t-trend h2 { font-size: 80px; border-bottom: 2px solid #38444d; padding-bottom: 40px; margin-top: 0; }
+        .t-trend .item { margin-bottom: 60px; }
+        .t-trend .rank { font-size: 30px; color: #8899a6; }
+        .t-trend .topic { font-size: 70px; font-weight: bold; margin: 10px 0; }
+        .t-trend .posts { font-size: 35px; color: #8899a6; }
+        .t-trend .highlight { color: #1DA1F2; }
+
+        /* =========================================
+           7. THE VWA SAVIOR (MEME FORMAT)
+           ========================================= */
+        .t-vwa {
+            background: white;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Der Text-Bereich oben */
+        .t-vwa .meme-header {
+            padding: 60px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 900;
+            font-size: 85px;
+            line-height: 1.1;
+            color: black;
+            text-transform: uppercase;
+            background: white;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Visuelle Hervorhebung des Stresses */
+        .t-vwa .stress-part {
+            color: #ff0000;
+            text-shadow: 2px 2px 0px black;
+            font-style: italic;
+        }
+        
+        /* Der Umschwung */
+        .t-vwa .realization-part {
+            color: var(--purple); /* Oder Gold, je nach Geschmack */
+        }
+
+        /* Der Bild-Bereich unten */
+        .t-vwa .image-container {
+            flex-grow: 1;
+            position: relative;
+            overflow: hidden;
+            border-top: 10px solid black;
+        }
+
+        /* Das Bild selbst - glorifiziert */
+        .t-vwa .bg {
+            /* Wir nutzen das Standard-Bild, aber machen es episch */
+            filter: brightness(1.1) contrast(1.2) sepia(0.2);
+            animation: slowZoom 15s infinite alternate ease-in-out;
+        }
+
+        /* Göttliche Lichtstrahlen */
+        .t-vwa .rays {
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: repeating-conic-gradient(rgba(255, 215, 0, 0.4) 0deg 15deg, transparent 15deg 30deg);
+            animation: spin 25s linear infinite;
+            mix-blend-mode: overlay;
+            z-index: 1;
+        }
+        
+        /* Ein "Heiligenschein" Glow von unten */
+        .t-vwa .holy-glow {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%; height: 60%;
+            background: linear-gradient(to top, rgba(255,215,0,0.6), transparent);
+            z-index: 2;
+            mix-blend-mode: soft-light;
+        }
+
+        /* Animationen */
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes slowZoom { from { transform: scale(1); } to { transform: scale(1.15); } }
+
+    </style>
+</head>
+<body>
+
+    <h1>👇 ZOOM & SCREENSHOT (1080x1350) 👇</h1>
+
+    <div class="post t-bias">
+        <div class="bg"></div>
+        <div class="overlay"></div>
+        <div class="sticker">MY BIAS ✨</div>
+        <div class="heart">💖</div>
+        <div class="stats">
+            VISUAL: 100/100<br>
+            VOCALS: 100/100<br>
+            DANCER: 100/100<br>
+            RIZZ: ∞
+        </div>
+    </div>
+
+    <div class="post t-roman">
+        <div class="tweet-box">
+            <div class="user">
+                <div class="pfp"></div>
+                <div style="font-size: 30px; color: #555;">@johannes_nell</div>
+            </div>
+            <div class="text">
+                "how often do you think about Thorsten?"<br><br>
+                me:
+            </div>
+            <div class="meme-img"></div>
+        </div>
+    </div>
+
+    <div class="post t-collage">
+        <div class="photo p1"><div class="tape"></div></div>
+        <div class="photo p2"><div class="tape"></div></div>
+        <div class="text">PROTECT<br>AT ALL<br>COSTS</div>
+    </div>
+
+    <div class="post t-vwa">
+        <div class="meme-header">
+            when you write your <span class="stress-part">VWA</span> and are really stressed but then you remember <span class="realization-part">who your teacher is:</span>
+        </div>
+        <div class="image-container">
+            <div class="bg"></div>
+            <div class="rays"></div>
+            <div class="holy-glow"></div>
+        </div>
+    </div>
+
+    <div class="post t-cctv">
+        <div class="bg"></div>
+        <div class="rec"><div class="dot"></div> REC</div>
+        <div class="frame"></div>
+        <div class="label">OBJECT: THE GOAT</div>
+    </div>
+
+    <div class="post t-fried">
+        <div class="bg"></div>
+        <div class="eye-flare"></div>
+        <div class="eye-flare eye-flare-2"></div>
+        <div class="top-text">TEACHER: *BREATHES*</div>
+        <div class="bottom-text">ME: OMG 😍</div>
+    </div>
+
+    <div class="post t-trend">
+        <h2>Trends for you</h2>
+        
+        <div class="item">
+            <div class="rank">1 · Politics · Trending</div>
+            <div class="topic">#ThorstenForPresident</div>
+            <div class="posts">500M posts</div>
+        </div>
+
+        <div class="item">
+            <div class="rank">2 · Education · Trending</div>
+            <div class="topic">No Homework</div>
+            <div class="posts">1.2M posts</div>
+        </div>
+
+        <div class="item">
+            <div class="rank">3 · Fashion · Trending</div>
+            <div class="topic">The Tie</div>
+            <div class="posts">800K posts</div>
+        </div>
+
+        <div class="item">
+            <div class="rank">4 · Music · Trending</div>
+            <div class="topic">Thorsten Mayr</div>
+            <div class="posts">Trending with <span class="highlight">#TheGoat</span></div>
+        </div>
+    </div>
+
+</body>
+</html>
